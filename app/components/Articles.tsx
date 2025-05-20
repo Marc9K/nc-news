@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { ArticleCard } from "./ArticleCard";
-import { Flex } from "antd";
+import { Flex, Spin, Typography } from "antd";
 import axios from "axios";
-
-async function loadArticles(setArticles) {
-  try {
-    const {
-      data: { articles },
-    } = await axios.get("https://nc-news-782p.onrender.com/api/articles");
-
-    setArticles(articles);
-  } catch (error) {
-    console.log(error);
-  }
-}
+import API from "../../env";
+import { useLoad } from "~/hooks/useLoad";
 
 export function Articles() {
-  const [articles, setArticles] = useState([]);
+  const { data, error, loading } = useLoad(API + "articles");
 
-  useEffect(() => {
-    loadArticles(setArticles);
-  });
+  if (loading) {
+    return (
+      <Flex vertical align="center">
+        <Spin size="large" />
+      </Flex>
+    );
+  }
+
+  if (error) {
+    return <Typography.Text>{error}</Typography.Text>;
+  }
+
+  const { articles } = data;
 
   return (
     <Flex vertical align="center">
