@@ -1,7 +1,11 @@
 import { Button, Flex, Typography, Image } from "antd";
 import Comments from "./Comments";
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { LikeButton } from "./LikeButton";
 
 export function ArticleView({ article }) {
+  const [like, setLike] = useState(0);
   return (
     <Flex
       gap="middle"
@@ -16,12 +20,27 @@ export function ArticleView({ article }) {
         <Typography.Text type="secondary" style={{ textAlign: "end" }}>
           {new Date(article.created_at).toLocaleDateString("en-GB")}
         </Typography.Text>
-
-        {/* <Flex justify="space-around" style={{ width: "100%" }}>
-          <Typography.Title level={5}>{article.votes} likes</Typography.Title>
-          <Button icon={<LikeOutlined />}>Like</Button>
-        <Button icon={<DislikeOutlined />}>Like</Button>
-        </Flex> */}
+      </Flex>
+      <Flex justify="space-around" style={{ width: "100%" }}>
+        <Typography.Title level={5}>
+          {article.votes + like} likes
+        </Typography.Title>
+        <LikeButton
+          like={like}
+          setLike={setLike}
+          value={1}
+          icon={<LikeOutlined />}
+          text="Like"
+          article_id={article.article_id}
+        />
+        <LikeButton
+          setLike={setLike}
+          icon={<DislikeOutlined />}
+          text="Dislike"
+          like={like}
+          value={-1}
+          article_id={article.article_id}
+        />
       </Flex>
       <Comments id={article.article_id} />
     </Flex>
