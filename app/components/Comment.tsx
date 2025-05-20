@@ -16,17 +16,17 @@ export function Comment({ comment }) {
           </Typography.Text>
         </Flex>
       }
-      actions={[
-        <Typography.Text type="secondary">
-          {comment.votes} likes
-        </Typography.Text>,
-        <Button type="text" icon={<LikeOutlined />}>
-          Like
-        </Button>,
-        <Button type="text" icon={<DislikeOutlined />}>
-          Dislike
-        </Button>,
-      ]}
+      // actions={[
+      //   <Typography.Text type="secondary">
+      //     {comment.votes} likes
+      //   </Typography.Text>,
+      //   <Button type="text" icon={<LikeOutlined />}>
+      //     Like
+      //   </Button>,
+      //   <Button type="text" icon={<DislikeOutlined />}>
+      //     Dislike
+      //   </Button>,
+      // ]}
     >
       <Typography.Text>{comment.body}</Typography.Text>
     </Card>
