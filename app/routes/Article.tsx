@@ -4,7 +4,7 @@ import { MetaWraper } from "../components/MetaWraper";
 import type { Route } from "./+types/article";
 import { ArticleView } from "../components/ArticleView";
 
-export async function loader({ params }: Route.LoaderArgs) {}
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {}
 
 export default function Article({ params }: Route.ComponentProps) {
   const url = API + "articles/" + params.id;

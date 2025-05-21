@@ -5,7 +5,7 @@ import { useLoad } from "../hooks/useLoad";
 import type { Route } from "./+types/topic";
 import { useLocation, useNavigate } from "react-router";
 
-export async function loader({ params }: Route.LoaderArgs) {}
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {}
 
 export default function Topic({ params }: Route.ComponentProps) {
   const { search } = useLocation();

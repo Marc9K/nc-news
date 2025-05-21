@@ -25,6 +25,12 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export async function loader() {
+  return {
+    version: 0.1,
+  };
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -48,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function HydrateFallback() {
+export function HydrateFallback({ loaderData }: Route.ComponentProps) {
   return (
     <Flex vertical align="center">
       <Spin size="large" />
