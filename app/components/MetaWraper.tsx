@@ -19,7 +19,6 @@ export function MetaWraper({
   }
 
   if (error) {
-    console.log(error);
     return <Typography.Text type="warning">{error.message}</Typography.Text>;
   }
 

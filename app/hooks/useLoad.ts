@@ -10,7 +10,9 @@ export function useLoad(url: string, changeOn: any[] = [], params = {}) {
     axios
       .get(url, { params: params })
       .then((res) => setData(res.data))
-      .catch((err: AxiosError) => setError(err))
+      .catch((err: AxiosError) => {
+        setError(err);
+      })
       .finally(() => setLoading(false));
   }, changeOn);
 

@@ -14,6 +14,7 @@ export default function DeleteButton({
 }: DeleteButtonProps) {
   return (
     <Button
+      danger
       loading={deleting}
       disabled={deleting}
       onClick={onClick}
