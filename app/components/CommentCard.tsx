@@ -5,6 +5,7 @@ import type { CommentType } from "~/interfaces/Comment";
 import { LikeButton } from "./LikeButton";
 import { useState } from "react";
 import axios from "axios";
+import DeleteButton from "./DeleteButton";
 
 export function Comment({
   comment,
@@ -39,16 +40,12 @@ export function Comment({
   }
 
   const deleteButton = (
-    <Button
+    <DeleteButton
       key={0}
-      loading={deleting}
-      disabled={deleting}
-      onClick={deleteComment}
       type="text"
-      icon={<DeleteOutlined />}
-    >
-      Delete
-    </Button>
+      deleting={deleting}
+      onClick={deleteComment}
+    />
   );
 
   const likeButtons = [

@@ -1,13 +1,19 @@
-import { Flex, Typography, Image } from "antd";
+import { Flex, Typography, Image, Button } from "antd";
 import Comments from "./Comments";
 import { useState } from "react";
 import { LikeButton } from "./LikeButton";
 import type { ArticleType } from "../interfaces/Article";
+import { username } from "env";
+import DeleteButton from "./DeleteButton";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 export function ArticleView({ article }: { article: ArticleType }) {
   const articleEndpoint = "articles/" + article.article_id;
 
   const [like, setLike] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Flex
@@ -28,18 +34,35 @@ export function ArticleView({ article }: { article: ArticleType }) {
         <Typography.Title level={5}>
           {article.votes + like} likes
         </Typography.Title>
-        <LikeButton
-          like={like}
-          setLike={setLike}
-          value={1}
-          endpoint={articleEndpoint}
-        />
-        <LikeButton
-          setLike={setLike}
-          like={like}
-          value={-1}
-          endpoint={articleEndpoint}
-        />
+        {article.author === username ? (
+          <DeleteButton
+            deleting={deleting}
+            onClick={async () => {
+              try {
+                setDeleting(true);
+                await axios.delete(articleEndpoint);
+                navigate("/");
+              } catch (error) {
+                setDeleting(false);
+              }
+            }}
+          />
+        ) : (
+          <>
+            <LikeButton
+              like={like}
+              setLike={setLike}
+              value={1}
+              endpoint={articleEndpoint}
+            />
+            <LikeButton
+              setLike={setLike}
+              like={like}
+              value={-1}
+              endpoint={articleEndpoint}
+            />
+          </>
+        )}
       </Flex>
       <Comments articleId={article.article_id} />
     </Flex>
