@@ -10,7 +10,8 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Header } from "./components/Header";
-import { Flex, Spin, Typography } from "antd";
+import { ConfigProvider, Flex, Spin, Typography, theme } from "antd";
+import { useEffect, useState } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -32,6 +33,16 @@ export async function loader() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const isDark = e.matches;
+        setIsDark(isDark);
+      });
+  }, []);
   return (
     <html lang="en">
       <head>
@@ -40,16 +51,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        <main>
-          <header>
-            <Header />
-          </header>
-          <div className="p-4">{children}</div>
-        </main>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
+      <ConfigProvider
+        theme={{
+          algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        }}
+      >
+        <body>
+          <main>
+            <header>
+              <Header />
+            </header>
+            <div className="p-4">{children}</div>
+          </main>
+          <ScrollRestoration />
+          <Scripts />
+        </body>
+      </ConfigProvider>
     </html>
   );
 }
