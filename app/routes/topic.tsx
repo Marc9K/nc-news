@@ -12,17 +12,17 @@ export default function Topic({ params }: Route.ComponentProps) {
   const query = new URLSearchParams(search);
   const sort_by = query.get("sort_by");
   const order = query.get("order");
-  const page = query.get("page");
-  const limit = query.get("page_size");
+  const p = query.get("p");
+  const limit = query.get("limit");
 
   const { data, error, loading } = useLoad(
     API + "articles",
-    [params.topic, sort_by, order],
+    [params.topic, sort_by, order, p, limit],
     {
       topic: params.topic,
       sort_by,
       order,
-      page,
+      p,
       limit,
     }
   );

@@ -9,7 +9,7 @@ type SortByType = "created_at" | "votes" | "comment_count";
 interface QueryType {
   order?: OrderType;
   sort_by?: SortByType;
-  page?: number;
+  p?: number;
   limit?: number;
 }
 
@@ -18,7 +18,7 @@ export default function useUrl() {
   const location = useLocation();
   const lastSegment = location.pathname.split("/").pop() ?? "";
   const params = new URLSearchParams(location.search);
-  const queryAttributes = ["sort_by", "order", "page", "limit"];
+  const queryAttributes = ["sort_by", "order", "p", "limit"];
   const currentQuery: QueryType = queryAttributes.reduce((prev, current) => {
     const attribute = params.get(current);
     if (attribute) {

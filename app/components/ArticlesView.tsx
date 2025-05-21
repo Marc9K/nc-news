@@ -20,13 +20,13 @@ export function ArticlesView({
       ))}
       {total > (urlNavigate.currentQuery.limit ?? 10) && (
         <Pagination
-          onChange={(page, limit) => {
-            urlNavigate.navigate({ page, limit });
+          onChange={(p, limit) => {
+            urlNavigate.navigate({ p, limit });
           }}
           total={total}
           showSizeChanger
           showQuickJumper
-          current={urlNavigate.currentQuery.page ?? 1}
+          current={urlNavigate.currentQuery.p ?? 1}
           pageSize={urlNavigate.currentQuery.limit ?? 10}
         />
       )}
