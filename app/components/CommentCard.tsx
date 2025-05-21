@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import DeleteButton from "./DeleteButton";
 
-export function Comment({
+export function CommentCard({
   comment,
   onDelete,
 }: {

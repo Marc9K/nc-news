@@ -9,7 +9,7 @@ export function ArticleCard({ article }: { article: ArticleType }) {
   return (
     <Card
       onClick={() => {
-        navigate("article/" + article.article_id);
+        navigate("/article/" + article.article_id);
       }}
       style={{
         maxWidth: "30rem",
