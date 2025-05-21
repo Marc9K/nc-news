@@ -68,7 +68,7 @@ export default function ArticlesFilters() {
   }) {
     const params = new URLSearchParams(query);
     const postfix = params.toString();
-    navigate(`/articles/${path}${postfix.length > 0 ? "?" : ""}` + postfix);
+    navigate(`/articles${path}${postfix.length > 0 ? "?" : ""}` + postfix);
   }
 
   function onClick(filter: "order" | "sort_by") {

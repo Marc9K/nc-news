@@ -12,6 +12,8 @@ export default function Topic({ params }: Route.ComponentProps) {
   const query = new URLSearchParams(search);
   const sort_by = query.get("sort_by");
   const order = query.get("order");
+  const page = query.get("page");
+  const limit = query.get("page_size");
 
   const { data, error, loading } = useLoad(
     API + "articles",
@@ -20,11 +22,16 @@ export default function Topic({ params }: Route.ComponentProps) {
       topic: params.topic,
       sort_by,
       order,
+      page,
+      limit,
     }
   );
+
   return (
     <MetaWraper loading={loading} error={error}>
-      {data && <ArticlesView articles={data.articles} />}
+      {data && (
+        <ArticlesView articles={data.articles} total={data.total_count} />
+      )}
     </MetaWraper>
   );
 }
