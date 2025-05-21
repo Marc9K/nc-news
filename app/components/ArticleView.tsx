@@ -44,6 +44,7 @@ export function ArticleView({ article }: { article: ArticleType }) {
                 navigate("/");
               } catch (error) {
                 setDeleting(false);
+                throw error;
               }
             }}
           />

@@ -22,7 +22,7 @@ export function LikeButton({
   const error = () => {
     messageApi.open({
       type: "error",
-      content: "Your vote didn't count 😢",
+      content: "Your like didn't count 😢",
     });
   };
   const icon = value > 0 ? <LikeOutlined /> : <DislikeOutlined />;
