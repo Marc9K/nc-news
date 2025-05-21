@@ -1,5 +1,5 @@
 import { Button, Flex, Image, message, Typography } from "antd";
-import { useLoad } from "~/hooks/useLoad";
+import { useLoad } from "../hooks/useLoad";
 import { API, username } from "../../env";
 import { MetaWraper } from "./MetaWraper";
 // import type { Route } from "./+types/Article";
@@ -8,7 +8,7 @@ import { Input } from "antd";
 import { CommentCard } from "./CommentCard";
 import { useState } from "react";
 import axios from "axios";
-import type { CommentType } from "~/interfaces/Comment";
+import type { CommentType } from "../interfaces/Comment";
 
 const { TextArea } = Input;
 

@@ -1,7 +1,7 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, message, Typography } from "antd";
 import { API, username } from "env";
-import type { CommentType } from "~/interfaces/Comment";
+import type { CommentType } from "../interfaces/Comment";
 import { LikeButton } from "./LikeButton";
 import { useState } from "react";
 import axios from "axios";

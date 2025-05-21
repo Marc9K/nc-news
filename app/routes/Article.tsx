@@ -1,8 +1,8 @@
-import { useLoad } from "~/hooks/useLoad";
+import { useLoad } from "../hooks/useLoad";
 import { API } from "../../env";
 import { MetaWraper } from "../components/MetaWraper";
 import type { Route } from "./+types/article";
-import { ArticleView } from "~/components/ArticleView";
+import { ArticleView } from "../components/ArticleView";
 
 export async function loader({ params }: Route.LoaderArgs) {}
 

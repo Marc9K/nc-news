@@ -1,7 +1,7 @@
 import { API } from "env";
-import { ArticlesView } from "~/components/ArticlesView";
-import { MetaWraper } from "~/components/MetaWraper";
-import { useLoad } from "~/hooks/useLoad";
+import { ArticlesView } from "../components/ArticlesView";
+import { MetaWraper } from "../components/MetaWraper";
+import { useLoad } from "../hooks/useLoad";
 import type { Route } from "./+types/topic";
 import { useLocation, useNavigate } from "react-router";
 

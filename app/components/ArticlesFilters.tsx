@@ -2,8 +2,8 @@ import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Flex, Space, type MenuProps } from "antd";
 import { API } from "env";
 import { useLocation, useNavigate } from "react-router";
-import { useLoad } from "~/hooks/useLoad";
-import type { TopicType } from "~/interfaces/Topic";
+import { useLoad } from "../hooks/useLoad";
+import type { TopicType } from "../interfaces/Topic";
 
 type OrderType = "desc" | "asc";
 type SortByType = "created_at" | "votes" | "comment_count";

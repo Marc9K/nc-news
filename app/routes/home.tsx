@@ -1,8 +1,8 @@
-import { ArticlesView } from "~/components/ArticlesView";
+import { ArticlesView } from "../components/ArticlesView";
 import { API } from "../../env";
 import type { Route } from "./+types/home";
-import { MetaWraper } from "~/components/MetaWraper";
-import { useLoad } from "~/hooks/useLoad";
+import { MetaWraper } from "../components/MetaWraper";
+import { useLoad } from "../hooks/useLoad";
 
 export function meta({}: Route.MetaArgs) {
   return [

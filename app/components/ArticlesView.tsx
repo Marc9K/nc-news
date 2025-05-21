@@ -1,6 +1,6 @@
 import { ArticleCard } from "./ArticleCard";
 import { Flex } from "antd";
-import type { ArticleType } from "~/interfaces/Article";
+import type { ArticleType } from "../interfaces/Article";
 import ArticlesFilters from "./ArticlesFilters";
 
 export function ArticlesView({ articles }: { articles: ArticleType[] }) {
