@@ -1,6 +1,15 @@
 import { Flex, Spin, Typography } from "antd";
+import type { AxiosError } from "axios";
 
-export function MetaWraper({ loading, error, children }) {
+export function MetaWraper({
+  loading,
+  error,
+  children,
+}: {
+  loading: boolean;
+  error: AxiosError | null;
+  children: React.ReactNode | React.ReactNode[];
+}) {
   if (loading) {
     return (
       <Flex vertical align="center">
@@ -11,7 +20,7 @@ export function MetaWraper({ loading, error, children }) {
 
   if (error) {
     console.log(error);
-    return <Typography.Text type="warning">{error}</Typography.Text>;
+    return <Typography.Text type="warning">{error.message}</Typography.Text>;
   }
 
   return children;

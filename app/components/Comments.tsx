@@ -5,14 +5,15 @@ import { MetaWraper } from "./MetaWraper";
 // import type { Route } from "./+types/Article";
 // import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-import { Comment } from "./Comment";
+import { Comment } from "./CommentCard";
 import { useState } from "react";
 import axios from "axios";
+import type { CommentType } from "~/interfaces/Comment";
 
 const { TextArea } = Input;
 
-export default function Comments({ id }) {
-  const url = API + "articles/" + id;
+export default function Comments({ articleId }: { articleId: number }) {
+  const url = API + "articles/" + articleId;
   const [comment, setComment] = useState("");
   const [posting, setPosting] = useState(false);
   const { data, error, loading } = useLoad(url + "/comments", [posting]);
@@ -28,7 +29,7 @@ export default function Comments({ id }) {
   async function postComment() {
     setPosting(true);
     try {
-      await axios.post(API + "articles/" + id + "/comments", {
+      await axios.post(API + "articles/" + articleId + "/comments", {
         username: "grumpy19",
         body: comment,
       });
@@ -54,7 +55,7 @@ export default function Comments({ id }) {
         />
         <Button
           loading={posting}
-          disabled={posting}
+          disabled={posting || comment.length === 0}
           onClick={postComment}
           style={{ alignSelf: "end" }}
           type="primary"
@@ -64,7 +65,7 @@ export default function Comments({ id }) {
         <MetaWraper loading={loading} error={error}>
           {data && (
             <>
-              {data.comments.map((comment) => (
+              {data.comments.map((comment: CommentType) => (
                 <Comment key={comment.comment_id} comment={comment} />
               ))}
             </>

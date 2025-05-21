@@ -1,8 +1,9 @@
 import { Badge, Card, Flex, Space, Typography } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
+import type { ArticleType } from "~/interfaces/Article";
 
-export function ArticleCard({ article }) {
+export function ArticleCard({ article }: { article: ArticleType }) {
   const createdAt = new Date(article.created_at);
   const navigate = useNavigate();
   return (
