@@ -10,7 +10,9 @@ export function Comment({ comment }) {
       }}
       title={
         <Flex justify="space-between" align="center">
-          <Typography.Title level={4}>{comment.author}</Typography.Title>
+          <Typography.Title copyable level={4}>
+            {comment.author}
+          </Typography.Title>
           <Typography.Text type="secondary">
             {new Date(comment.created_at).toLocaleDateString("en-GB")}
           </Typography.Text>
