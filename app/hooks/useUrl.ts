@@ -43,7 +43,11 @@ export default function useUrl() {
   function navigateWith(query: QueryType) {
     const newParams = new URLSearchParams({ ...currentQuery, ...query });
     const postfix = newParams.toString();
-    navigate(`/articles${topic}${postfix.length > 0 ? "?" : ""}` + postfix);
+    navigate(
+      `/articles${topic.length > 0 ? "/" + topic : ""}${
+        postfix.length > 0 ? "?" : ""
+      }` + postfix
+    );
   }
-  return { navigate: navigateWith, currentQuery };
+  return { navigate: navigateWith, currentQuery, topic };
 }
