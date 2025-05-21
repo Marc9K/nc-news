@@ -1,5 +1,7 @@
-import { Flex, Spin, Typography } from "antd";
+import { HomeOutlined } from "@ant-design/icons";
+import { Button, Flex, Spin, Typography } from "antd";
 import type { AxiosError } from "axios";
+import { useNavigate } from "react-router";
 
 export function MetaWraper({
   loading,
@@ -10,6 +12,8 @@ export function MetaWraper({
   error: AxiosError | null;
   children: React.ReactNode | React.ReactNode[];
 }) {
+  const navigate = useNavigate();
+
   if (loading) {
     return (
       <Flex vertical align="center">
@@ -19,7 +23,25 @@ export function MetaWraper({
   }
 
   if (error) {
-    return <Typography.Text type="warning">{error.message}</Typography.Text>;
+    return (
+      <Flex vertical align="center">
+        <Typography.Title style={{ textAlign: "center" }} type="danger">
+          Sorry
+          <br />
+          {error.message}
+        </Typography.Title>
+        <Button
+          icon={<HomeOutlined />}
+          size="large"
+          type="primary"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Go to home page
+        </Button>
+      </Flex>
+    );
   }
 
   return children;

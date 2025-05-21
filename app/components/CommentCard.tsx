@@ -32,8 +32,6 @@ export function CommentCard({
       setDeleting(true);
       await axios.delete(API + likeEndpoint);
       onDelete(comment.comment_id);
-    } catch (err) {
-      error();
     } finally {
       setDeleting(false);
     }

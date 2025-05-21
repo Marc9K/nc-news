@@ -25,7 +25,7 @@ export default function Comments({ articleId }: { articleId: number }) {
   const errorMessage = () => {
     messageApi.open({
       type: "error",
-      content: "Can't post your comment, sorry",
+      content: "Couldn't post your comment, sorry",
     });
   };
 

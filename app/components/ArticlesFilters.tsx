@@ -25,7 +25,7 @@ const orderOptions: MenuProps["items"] = [
 
 const sortByOptions: MenuProps["items"] = [
   { label: "Date", key: "created_at" },
-  { label: "Votes", key: "votes" },
+  { label: "Likes", key: "votes" },
   { label: "Comments", key: "comment_count" },
 ];
 
