@@ -5,7 +5,7 @@ import { MetaWraper } from "./MetaWraper";
 // import type { Route } from "./+types/Article";
 // import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-import { Comment } from "./CommentCard";
+import { CommentCard } from "./CommentCard";
 import { useState } from "react";
 import axios from "axios";
 import type { CommentType } from "~/interfaces/Comment";
@@ -71,7 +71,7 @@ export default function Comments({ articleId }: { articleId: number }) {
               {(data.comments as CommentType[])
                 .filter((comment) => !deleted.includes(comment.comment_id))
                 .map((comment) => (
-                  <Comment
+                  <CommentCard
                     onDelete={(commentId: number) => {
                       setDeleted((prev) => [...prev, commentId]);
                     }}

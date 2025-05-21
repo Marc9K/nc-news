@@ -1,4 +1,4 @@
-import { Articles } from "~/components/ArticlesView";
+import { ArticlesView } from "~/components/ArticlesView";
 import { API } from "../../env";
 import type { Route } from "./+types/home";
 import { MetaWraper } from "~/components/MetaWraper";
@@ -15,7 +15,7 @@ export default function Home() {
   const { data, error, loading } = useLoad(API + "articles");
   return (
     <MetaWraper loading={loading} error={error}>
-      {data && <Articles articles={data.articles} />}
+      {data && <ArticlesView articles={data.articles} />}
     </MetaWraper>
   );
 }
