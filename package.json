@@ -6,7 +6,8 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "tree": "git ls-tree -r --name-only HEAD | tree --fromfile"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
