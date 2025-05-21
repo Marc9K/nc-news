@@ -1,10 +1,11 @@
-import { Button, Flex, Typography, Image } from "antd";
+import { Flex, Typography, Image } from "antd";
 import Comments from "./Comments";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { LikeButton } from "./LikeButton";
+import type { ArticleType } from "../interfaces/Article";
 
-export function ArticleView({ article }) {
+export function ArticleView({ article }: { article: ArticleType }) {
   const [like, setLike] = useState(0);
   return (
     <Flex
@@ -42,7 +43,7 @@ export function ArticleView({ article }) {
           article_id={article.article_id}
         />
       </Flex>
-      <Comments id={article.article_id} />
+      <Comments articleId={article.article_id} />
     </Flex>
   );
 }

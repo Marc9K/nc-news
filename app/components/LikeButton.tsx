@@ -2,7 +2,23 @@ import { Button, message } from "antd";
 import axios from "axios";
 import API from "../../env";
 
-export function LikeButton({ like, setLike, value, icon, text, article_id }) {
+interface LikeButtonProps {
+  like: number;
+  setLike: (like: number) => void;
+  value: number;
+  icon: React.ReactNode;
+  text: string;
+  article_id: number;
+}
+
+export function LikeButton({
+  like,
+  setLike,
+  value,
+  icon,
+  text,
+  article_id,
+}: LikeButtonProps) {
   const [messageApi, contextHolder] = message.useMessage();
   const error = () => {
     messageApi.open({

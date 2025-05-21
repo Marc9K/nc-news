@@ -1,7 +1,8 @@
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Typography } from "antd";
+import type { CommentType } from "~/interfaces/Comment";
 
-export function Comment({ comment }) {
+export function Comment({ comment }: { comment: CommentType }) {
   return (
     <Card
       style={{
