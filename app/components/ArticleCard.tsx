@@ -1,14 +1,18 @@
 import { Badge, Card, Flex, Space, Typography } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router";
 
 export function ArticleCard({ article }) {
   const createdAt = new Date(article.created_at);
+  const navigate = useNavigate();
   return (
     <Card
+      onClick={() => {
+        navigate("article/" + article.article_id);
+      }}
       style={{
         maxWidth: "30rem",
-        width: "calc(100% - 2rem)",
-        margin: "1rem",
+        width: "100%",
       }}
       title={
         <Typography.Title level={3} style={{ whiteSpace: "wrap" }}>

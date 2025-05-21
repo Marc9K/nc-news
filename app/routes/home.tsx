@@ -1,6 +1,5 @@
 import { Articles } from "~/components/Articles";
 import type { Route } from "./+types/home";
-import { Header } from "~/components/Header";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,12 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return (
-    <main>
-      <header>
-        <Header />
-      </header>
-      <Articles />
-    </main>
-  );
+  return <Articles />;
 }

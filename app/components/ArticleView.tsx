@@ -1,0 +1,48 @@
+import { Button, Flex, Typography, Image } from "antd";
+import Comments from "./Comments";
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { LikeButton } from "./LikeButton";
+
+export function ArticleView({ article }) {
+  const [like, setLike] = useState(0);
+  return (
+    <Flex
+      gap="middle"
+      vertical
+      style={{ maxWidth: "45rem", justifySelf: "center" }}
+    >
+      <Typography.Title>{article.title}</Typography.Title>
+      <Image src={article.article_img_url} />
+      <Typography.Text>{article.body}</Typography.Text>
+      <Flex justify="space-between" style={{ width: "100%" }}>
+        <Typography.Text type="secondary">By {article.author}</Typography.Text>
+        <Typography.Text type="secondary" style={{ textAlign: "end" }}>
+          {new Date(article.created_at).toLocaleDateString("en-GB")}
+        </Typography.Text>
+      </Flex>
+      <Flex justify="space-around" style={{ width: "100%" }}>
+        <Typography.Title level={5}>
+          {article.votes + like} likes
+        </Typography.Title>
+        <LikeButton
+          like={like}
+          setLike={setLike}
+          value={1}
+          icon={<LikeOutlined />}
+          text="Like"
+          article_id={article.article_id}
+        />
+        <LikeButton
+          setLike={setLike}
+          icon={<DislikeOutlined />}
+          text="Dislike"
+          like={like}
+          value={-1}
+          article_id={article.article_id}
+        />
+      </Flex>
+      <Comments id={article.article_id} />
+    </Flex>
+  );
+}
