@@ -1,5 +1,5 @@
 import { useLoad } from "~/hooks/useLoad";
-import API from "../../env";
+import { API } from "../../env";
 import { MetaWraper } from "../components/MetaWraper";
 import type { Route } from "./+types/Article";
 import { ArticleView } from "~/components/ArticleView";

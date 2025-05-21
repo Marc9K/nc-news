@@ -1,6 +1,6 @@
 import { Button, Flex, Image, message, Typography } from "antd";
 import { useLoad } from "~/hooks/useLoad";
-import API from "../../env";
+import { API, username } from "../../env";
 import { MetaWraper } from "./MetaWraper";
 // import type { Route } from "./+types/Article";
 // import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
@@ -14,8 +14,11 @@ const { TextArea } = Input;
 
 export default function Comments({ articleId }: { articleId: number }) {
   const url = API + "articles/" + articleId;
+
   const [comment, setComment] = useState("");
   const [posting, setPosting] = useState(false);
+  const [deleted, setDeleted] = useState<number[]>([]);
+
   const { data, error, loading } = useLoad(url + "/comments", [posting]);
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -30,7 +33,7 @@ export default function Comments({ articleId }: { articleId: number }) {
     setPosting(true);
     try {
       await axios.post(API + "articles/" + articleId + "/comments", {
-        username: "grumpy19",
+        username: username,
         body: comment,
       });
       setComment("");
@@ -65,9 +68,17 @@ export default function Comments({ articleId }: { articleId: number }) {
         <MetaWraper loading={loading} error={error}>
           {data && (
             <>
-              {data.comments.map((comment: CommentType) => (
-                <Comment key={comment.comment_id} comment={comment} />
-              ))}
+              {(data.comments as CommentType[])
+                .filter((comment) => !deleted.includes(comment.comment_id))
+                .map((comment) => (
+                  <Comment
+                    onDelete={(commentId: number) => {
+                      setDeleted((prev) => [...prev, commentId]);
+                    }}
+                    key={comment.comment_id}
+                    comment={comment}
+                  />
+                ))}
             </>
           )}
         </MetaWraper>
