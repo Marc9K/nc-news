@@ -1,4 +1,4 @@
-import { Button, Flex, Image, message, Typography } from "antd";
+import { Button, Flex, Image, message, Pagination, Typography } from "antd";
 import { useLoad } from "../hooks/useLoad";
 import { API, username } from "../../env";
 import { MetaWraper } from "./MetaWraper";
@@ -18,8 +18,14 @@ export default function Comments({ articleId }: { articleId: number }) {
   const [comment, setComment] = useState("");
   const [posting, setPosting] = useState(false);
   const [deleted, setDeleted] = useState<number[]>([]);
+  const [limit, setLimit] = useState(10);
+  const [p, setPage] = useState(1);
 
-  const { data, error, loading } = useLoad(url + "/comments", [posting]);
+  const { data, error, loading } = useLoad(
+    url + "/comments",
+    [posting, limit, p],
+    { p, limit }
+  );
   const [messageApi, contextHolder] = message.useMessage();
 
   const errorMessage = () => {
@@ -79,6 +85,19 @@ export default function Comments({ articleId }: { articleId: number }) {
                     comment={comment}
                   />
                 ))}
+              {data.total_count > limit && (
+                <Pagination
+                  onChange={(page, limit) => {
+                    setPage(page);
+                    setLimit(limit);
+                  }}
+                  total={data.total_count}
+                  showSizeChanger
+                  showQuickJumper
+                  current={p}
+                  pageSize={limit}
+                />
+              )}
             </>
           )}
         </MetaWraper>

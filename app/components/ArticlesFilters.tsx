@@ -4,6 +4,7 @@ import { API } from "env";
 import { useLocation, useNavigate } from "react-router";
 import { useLoad } from "../hooks/useLoad";
 import type { TopicType } from "../interfaces/Topic";
+import useUrl from "~/hooks/useUrl";
 
 type OrderType = "desc" | "asc";
 type SortByType = "created_at" | "votes" | "comment_count";
@@ -30,19 +31,8 @@ const sortByOptions: MenuProps["items"] = [
 ];
 
 export default function ArticlesFilters() {
+  const urlNavigate = useUrl();
   const navigate = useNavigate();
-  const location = useLocation();
-  const lastSegment = location.pathname.split("/").pop() ?? "";
-  const params = new URLSearchParams(location.search);
-  const sortBy: SortByType | null = params.get("sort_by");
-  const order: OrderType | null = params.get("order");
-  const currentQuery: QueryType = {};
-  if (sortBy) {
-    currentQuery.sort_by = sortBy;
-  }
-  if (order) {
-    currentQuery.order = order;
-  }
 
   const { data, error, loading } = useLoad(API + "topics");
   const topics: MenuProps["items"] =
@@ -51,30 +41,30 @@ export default function ArticlesFilters() {
       key: topic.slug,
     })) ?? [];
 
-  const topic = topics?.map((topic) => topic?.key)?.includes(lastSegment)
-    ? lastSegment
-    : "";
-
   const onClickTopic: MenuProps["onClick"] = ({ key }) => {
     navigateWith({ path: key });
   };
 
   function navigateWith({
-    query = currentQuery,
-    path = topic,
+    query = urlNavigate.currentQuery,
+    path = urlNavigate.topic,
   }: {
     query: QueryType;
     path: string;
   }) {
     const params = new URLSearchParams(query);
     const postfix = params.toString();
-    navigate(`/articles/${path}${postfix.length > 0 ? "?" : ""}` + postfix);
+    navigate(
+      `/articles${path.length > 0 ? "/" + path : ""}${
+        postfix.length > 0 ? "?" : ""
+      }` + postfix
+    );
   }
 
   function onClick(filter: "order" | "sort_by") {
     const action: MenuProps["onClick"] = ({ key }) => {
       let query: QueryType = {
-        ...currentQuery,
+        ...urlNavigate.currentQuery,
       };
       query[filter] = key;
       navigateWith({ query });
@@ -87,7 +77,9 @@ export default function ArticlesFilters() {
         <Dropdown menu={{ items: topics, onClick: onClickTopic }}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              {topic.length > 0 ? topic : "Select topic"}
+              {urlNavigate.topic.length > 0
+                ? urlNavigate.topic
+                : "Select topic"}
               <DownOutlined />
             </Space>
           </a>
@@ -97,9 +89,10 @@ export default function ArticlesFilters() {
         <Dropdown menu={{ items: sortByOptions, onClick: onClick("sort_by") }}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              {sortBy
-                ? sortByOptions.find(({ key }) => key === sortBy).label ??
-                  sortBy
+              {urlNavigate.currentQuery.sort_by
+                ? sortByOptions.find(
+                    ({ key }) => key === urlNavigate.currentQuery.sort_by
+                  ).label ?? urlNavigate.currentQuery.sort_by
                 : "Sort by"}
               <DownOutlined />
             </Space>
@@ -108,8 +101,10 @@ export default function ArticlesFilters() {
         <Dropdown menu={{ items: orderOptions, onClick: onClick("order") }}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              {order
-                ? orderOptions.find(({ key }) => key === order).label ?? order
+              {urlNavigate.currentQuery.order
+                ? orderOptions.find(
+                    ({ key }) => key === urlNavigate.currentQuery.order
+                  ).label ?? urlNavigate.currentQuery.order
                 : "Order"}
               <DownOutlined />
             </Space>

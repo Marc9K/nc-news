@@ -1,15 +1,35 @@
 import { ArticleCard } from "./ArticleCard";
-import { Flex } from "antd";
+import { Flex, Pagination, type PaginationProps } from "antd";
 import type { ArticleType } from "../interfaces/Article";
 import ArticlesFilters from "./ArticlesFilters";
+import useUrl from "~/hooks/useUrl";
 
-export function ArticlesView({ articles }: { articles: ArticleType[] }) {
+export function ArticlesView({
+  articles,
+  total,
+}: {
+  articles: ArticleType[];
+  total: number;
+}) {
+  const urlNavigate = useUrl();
   return (
     <Flex vertical align="center" gap="middle">
       <ArticlesFilters />
       {articles.map((article: ArticleType) => (
         <ArticleCard key={article.article_id} article={article} />
       ))}
+      {total > (urlNavigate.currentQuery.limit ?? 10) && (
+        <Pagination
+          onChange={(p, limit) => {
+            urlNavigate.navigate({ p, limit });
+          }}
+          total={total}
+          showSizeChanger
+          showQuickJumper
+          current={urlNavigate.currentQuery.p ?? 1}
+          pageSize={urlNavigate.currentQuery.limit ?? 10}
+        />
+      )}
     </Flex>
   );
 }

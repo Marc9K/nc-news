@@ -15,7 +15,9 @@ export default function Home() {
   const { data, error, loading } = useLoad(API + "articles");
   return (
     <MetaWraper loading={loading} error={error}>
-      {data && <ArticlesView articles={data.articles} />}
+      {data && (
+        <ArticlesView articles={data.articles} total={data.total_count} />
+      )}
     </MetaWraper>
   );
 }
