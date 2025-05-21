@@ -1,5 +1,5 @@
 import { Articles } from "~/components/ArticlesView";
-import API from "../../env";
+import { API } from "../../env";
 import type { Route } from "./+types/home";
 import { MetaWraper } from "~/components/MetaWraper";
 import { useLoad } from "~/hooks/useLoad";

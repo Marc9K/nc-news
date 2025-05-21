@@ -1,23 +1,22 @@
 import { Button, message } from "antd";
 import axios from "axios";
-import API from "../../env";
+import { API } from "../../env";
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 
 interface LikeButtonProps {
   like: number;
   setLike: (like: number) => void;
-  value: number;
-  icon: React.ReactNode;
-  text: string;
-  article_id: number;
+  value: 1 | -1;
+  type?: "text" | "default" | "link" | "primary" | "dashed";
+  endpoint: string;
 }
 
 export function LikeButton({
   like,
   setLike,
   value,
-  icon,
-  text,
-  article_id,
+  type = "default",
+  endpoint,
 }: LikeButtonProps) {
   const [messageApi, contextHolder] = message.useMessage();
   const error = () => {
@@ -26,6 +25,8 @@ export function LikeButton({
       content: "Your vote didn't count 😢",
     });
   };
+  const icon = value > 0 ? <LikeOutlined /> : <DislikeOutlined />;
+  const text = value > 0 ? "Like" : "Dislike";
   return (
     <>
       {contextHolder}
@@ -39,7 +40,7 @@ export function LikeButton({
             like + setTo === 0 ? 2 * setTo : -1 * like + setTo;
           setLike(setTo);
           axios
-            .patch(API + "articles/" + article_id, {
+            .patch(API + endpoint, {
               inc_votes: incrementBy,
             })
             .catch((err) => {
@@ -47,7 +48,7 @@ export function LikeButton({
               setLike(0);
             });
         }}
-        type={like === value ? "primary" : "default"}
+        type={like === value ? "primary" : type}
         icon={icon}
       >
         {text}

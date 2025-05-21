@@ -1,12 +1,14 @@
 import { Flex, Typography, Image } from "antd";
 import Comments from "./Comments";
-import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { LikeButton } from "./LikeButton";
 import type { ArticleType } from "../interfaces/Article";
 
 export function ArticleView({ article }: { article: ArticleType }) {
+  const articleEndpoint = "articles/" + article.article_id;
+
   const [like, setLike] = useState(0);
+
   return (
     <Flex
       gap="middle"
@@ -30,17 +32,13 @@ export function ArticleView({ article }: { article: ArticleType }) {
           like={like}
           setLike={setLike}
           value={1}
-          icon={<LikeOutlined />}
-          text="Like"
-          article_id={article.article_id}
+          endpoint={articleEndpoint}
         />
         <LikeButton
           setLike={setLike}
-          icon={<DislikeOutlined />}
-          text="Dislike"
           like={like}
           value={-1}
-          article_id={article.article_id}
+          endpoint={articleEndpoint}
         />
       </Flex>
       <Comments articleId={article.article_id} />

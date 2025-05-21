@@ -1,37 +1,102 @@
-import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { Button, Card, Flex, Typography } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { Button, Card, Flex, message, Typography } from "antd";
+import { API, username } from "env";
 import type { CommentType } from "~/interfaces/Comment";
+import { LikeButton } from "./LikeButton";
+import { useState } from "react";
+import axios from "axios";
 
-export function Comment({ comment }: { comment: CommentType }) {
-  return (
-    <Card
-      style={{
-        maxWidth: "30rem",
-        width: "100%",
-      }}
-      title={
-        <Flex justify="space-between" align="center">
-          <Typography.Title copyable level={4}>
-            {comment.author}
-          </Typography.Title>
-          <Typography.Text type="secondary">
-            {new Date(comment.created_at).toLocaleDateString("en-GB")}
-          </Typography.Text>
-        </Flex>
-      }
-      // actions={[
-      //   <Typography.Text type="secondary">
-      //     {comment.votes} likes
-      //   </Typography.Text>,
-      //   <Button type="text" icon={<LikeOutlined />}>
-      //     Like
-      //   </Button>,
-      //   <Button type="text" icon={<DislikeOutlined />}>
-      //     Dislike
-      //   </Button>,
-      // ]}
+export function Comment({
+  comment,
+  onDelete,
+}: {
+  comment: CommentType;
+  onDelete: (commentId: number) => void;
+}) {
+  const likeEndpoint = "comments/" + comment.comment_id;
+
+  const [like, setLike] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Couldn't delete the comment 😢",
+    });
+  };
+
+  async function deleteComment() {
+    try {
+      setDeleting(true);
+      await axios.delete(API + likeEndpoint);
+      onDelete(comment.comment_id);
+    } catch (err) {
+      error();
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  const deleteButton = (
+    <Button
+      key={0}
+      loading={deleting}
+      disabled={deleting}
+      onClick={deleteComment}
+      type="text"
+      icon={<DeleteOutlined />}
     >
-      <Typography.Text>{comment.body}</Typography.Text>
-    </Card>
+      Delete
+    </Button>
+  );
+
+  const likeButtons = [
+    <LikeButton
+      key={1}
+      type="text"
+      like={like}
+      setLike={setLike}
+      value={1}
+      endpoint={likeEndpoint}
+    />,
+    <LikeButton
+      key={-1}
+      type="text"
+      like={like}
+      setLike={setLike}
+      value={-1}
+      endpoint={likeEndpoint}
+    />,
+  ];
+
+  return (
+    <>
+      {contextHolder}
+      <Card
+        style={{
+          maxWidth: "30rem",
+          width: "100%",
+        }}
+        title={
+          <Flex justify="space-between" align="center">
+            <Typography.Title copyable level={4}>
+              {comment.author}
+            </Typography.Title>
+            <Typography.Text type="secondary">
+              {new Date(comment.created_at).toLocaleDateString("en-GB")}
+            </Typography.Text>
+          </Flex>
+        }
+        actions={[
+          <Typography.Text type="secondary">
+            {comment.votes + like} likes
+          </Typography.Text>,
+          ...(comment.author === username ? [deleteButton] : likeButtons),
+        ]}
+      >
+        <Typography.Text>{comment.body}</Typography.Text>
+      </Card>
+    </>
   );
 }
