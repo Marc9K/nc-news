@@ -2,6 +2,8 @@ import { Button, message } from "antd";
 import axios from "axios";
 import { API } from "../../env";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
+import { useContext } from "react";
+import { AuthContext } from "~/userContext";
 
 interface LikeButtonProps {
   like: number;
@@ -27,6 +29,11 @@ export function LikeButton({
   };
   const icon = value > 0 ? <LikeOutlined /> : <DislikeOutlined />;
   const text = value > 0 ? "Like" : "Dislike";
+
+  const { user } = useContext(AuthContext);
+
+  if (!user) return null;
+
   return (
     <>
       {contextHolder}

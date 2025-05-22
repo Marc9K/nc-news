@@ -1,11 +1,12 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, message, Typography } from "antd";
-import { API, username } from "env";
+import { API } from "env";
 import type { CommentType } from "../interfaces/Comment";
 import { LikeButton } from "./LikeButton";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import DeleteButton from "./DeleteButton";
+import { AuthContext } from "~/userContext";
 
 export function CommentCard({
   comment,
@@ -18,6 +19,8 @@ export function CommentCard({
 
   const [like, setLike] = useState(0);
   const [deleting, setDeleting] = useState(false);
+
+  const { user } = useContext(AuthContext);
 
   const [messageApi, contextHolder] = message.useMessage();
   const error = () => {
@@ -65,6 +68,20 @@ export function CommentCard({
     />,
   ];
 
+  const actions = [
+    <Typography.Text type="secondary">
+      {comment.votes + like} like
+      {Math.abs(comment.votes + like) !== 1 && "s"}
+    </Typography.Text>,
+  ];
+  if (user) {
+    if (comment.author === user.username) {
+      actions.push(deleteButton);
+    } else {
+      actions.push(...likeButtons);
+    }
+  }
+
   return (
     <>
       {contextHolder}
@@ -83,12 +100,7 @@ export function CommentCard({
             </Typography.Text>
           </Flex>
         }
-        actions={[
-          <Typography.Text type="secondary">
-            {comment.votes + like} likes
-          </Typography.Text>,
-          ...(comment.author === username ? [deleteButton] : likeButtons),
-        ]}
+        actions={actions}
       >
         <Typography.Text>{comment.body}</Typography.Text>
       </Card>

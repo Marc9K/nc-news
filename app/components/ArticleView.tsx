@@ -1,12 +1,12 @@
 import { Flex, Typography, Image, Button } from "antd";
 import Comments from "./Comments";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LikeButton } from "./LikeButton";
 import type { ArticleType } from "../interfaces/Article";
-import { username } from "env";
 import DeleteButton from "./DeleteButton";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { AuthContext } from "~/userContext";
 
 export function ArticleView({ article }: { article: ArticleType }) {
   const articleEndpoint = "articles/" + article.article_id;
@@ -14,6 +14,8 @@ export function ArticleView({ article }: { article: ArticleType }) {
   const [like, setLike] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext);
 
   return (
     <Flex
@@ -32,9 +34,10 @@ export function ArticleView({ article }: { article: ArticleType }) {
       </Flex>
       <Flex justify="space-around" style={{ width: "100%" }}>
         <Typography.Title level={5}>
-          {article.votes + like} likes
+          {article.votes + like} like
+          {Math.abs(article.votes + like) !== 1 && "s"}
         </Typography.Title>
-        {article.author === username ? (
+        {article.author === user?.username ? (
           <DeleteButton
             deleting={deleting}
             onClick={async () => {
