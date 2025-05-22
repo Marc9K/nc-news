@@ -9,8 +9,12 @@ export function useLoad(url: string, changeOn: any[] = [], params = {}) {
   useEffect(() => {
     axios
       .get(url, { params: params })
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+        setError(null);
+      })
       .catch((err: AxiosError) => {
+        setData(null);
         setError(err);
       })
       .finally(() => setLoading(false));

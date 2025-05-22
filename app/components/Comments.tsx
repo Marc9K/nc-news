@@ -9,6 +9,7 @@ import { CommentCard } from "./CommentCard";
 import { useState } from "react";
 import axios from "axios";
 import type { CommentType } from "../interfaces/Comment";
+import { ReloadOutlined } from "@ant-design/icons";
 
 const { TextArea } = Input;
 
@@ -20,10 +21,11 @@ export default function Comments({ articleId }: { articleId: number }) {
   const [deleted, setDeleted] = useState<number[]>([]);
   const [limit, setLimit] = useState(10);
   const [p, setPage] = useState(1);
+  const [reload, setReload] = useState(false);
 
   const { data, error, loading } = useLoad(
     url + "/comments",
-    [posting, limit, p],
+    [posting, limit, p, reload],
     { p, limit }
   );
   const [messageApi, contextHolder] = message.useMessage();
@@ -71,7 +73,15 @@ export default function Comments({ articleId }: { articleId: number }) {
         >
           Comment
         </Button>
-        <MetaWraper loading={loading} error={error}>
+        <MetaWraper
+          loading={loading}
+          error={error}
+          text="Reload comments"
+          onClick={() => {
+            setReload((prev) => !prev);
+          }}
+          icon={<ReloadOutlined />}
+        >
           {data && (
             <>
               {(data.comments as CommentType[])
