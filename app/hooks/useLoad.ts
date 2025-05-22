@@ -7,6 +7,7 @@ export function useLoad(url: string, changeOn: any[] = [], params = {}) {
   const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(url, { params: params })
       .then((res) => {

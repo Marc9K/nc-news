@@ -25,7 +25,7 @@ export default function Comments({ articleId }: { articleId: number }) {
 
   const { data, error, loading } = useLoad(
     url + "/comments",
-    [posting, limit, p, reload],
+    [limit, p, reload],
     { p, limit }
   );
   const [messageApi, contextHolder] = message.useMessage();
@@ -45,6 +45,7 @@ export default function Comments({ articleId }: { articleId: number }) {
         body: comment,
       });
       setComment("");
+      setReload((prev) => !prev);
     } catch (err) {
       errorMessage();
     } finally {
