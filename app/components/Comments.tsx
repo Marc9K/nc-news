@@ -1,15 +1,16 @@
 import { Button, Flex, Image, message, Pagination, Typography } from "antd";
 import { useLoad } from "../hooks/useLoad";
-import { API, username } from "../../env";
+import { API } from "../../env";
 import { MetaWraper } from "./MetaWraper";
 // import type { Route } from "./+types/Article";
 // import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { CommentCard } from "./CommentCard";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import type { CommentType } from "../interfaces/Comment";
 import { ReloadOutlined } from "@ant-design/icons";
+import { AuthContext } from "~/userContext";
 
 const { TextArea } = Input;
 
@@ -22,6 +23,8 @@ export default function Comments({ articleId }: { articleId: number }) {
   const [limit, setLimit] = useState(10);
   const [p, setPage] = useState(1);
   const [reload, setReload] = useState(false);
+
+  const { user } = useContext(AuthContext);
 
   const { data, error, loading } = useLoad(
     url + "/comments",
@@ -41,7 +44,7 @@ export default function Comments({ articleId }: { articleId: number }) {
     setPosting(true);
     try {
       await axios.post(API + "articles/" + articleId + "/comments", {
-        username: username,
+        username: user?.username,
         body: comment,
       });
       setComment("");
@@ -57,23 +60,27 @@ export default function Comments({ articleId }: { articleId: number }) {
     <>
       {contextHolder}
       <Flex vertical align="center" gap="middle">
-        <TextArea
-          value={comment}
-          onChange={({ target: { value } }) => {
-            setComment(value);
-          }}
-          placeholder="Comment here..."
-          autoSize
-        />
-        <Button
-          loading={posting}
-          disabled={posting || comment.length === 0}
-          onClick={postComment}
-          style={{ alignSelf: "end" }}
-          type="primary"
-        >
-          Comment
-        </Button>
+        {user && (
+          <>
+            <TextArea
+              value={comment}
+              onChange={({ target: { value } }) => {
+                setComment(value);
+              }}
+              placeholder="Comment here..."
+              autoSize
+            />
+            <Button
+              loading={posting}
+              disabled={posting || comment.length === 0}
+              onClick={postComment}
+              style={{ alignSelf: "end" }}
+              type="primary"
+            >
+              Comment
+            </Button>
+          </>
+        )}
         <MetaWraper
           loading={loading}
           error={error}

@@ -12,6 +12,8 @@ import "./app.css";
 import { Header } from "./components/Header";
 import { ConfigProvider, Flex, Spin, Typography, theme } from "antd";
 import { useEffect, useState } from "react";
+import type { User } from "./interfaces/User";
+import { AuthContext } from "./userContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,6 +36,8 @@ export async function loader() {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
     window
@@ -43,6 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         setIsDark(isDark);
       });
   }, []);
+
   return (
     <html lang="en">
       <head>
@@ -56,16 +61,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
           algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
         }}
       >
-        <body>
-          <main>
-            <header>
-              <Header />
-            </header>
-            <div className="p-4">{children}</div>
-          </main>
-          <ScrollRestoration />
-          <Scripts />
-        </body>
+        <AuthContext.Provider value={{ user, setUser }}>
+          <body>
+            <main>
+              <header>
+                <Header />
+              </header>
+              <div className="p-4">{children}</div>
+            </main>
+            <ScrollRestoration />
+            <Scripts />
+          </body>
+        </AuthContext.Provider>
       </ConfigProvider>
     </html>
   );
