@@ -8,6 +8,9 @@ import {
 export default [
   index("./routes/home.tsx"),
   ...prefix("article", [route(":id", "./routes/article.tsx")]),
-  ...prefix("articles", [route(":topic?", "./routes/topic.tsx")]),
+  ...prefix("articles", [
+    route(":topic?", "./routes/topic.tsx"),
+    route("new", "./routes/newArticle.tsx"),
+  ]),
   route("/users", "./routes/users.tsx"),
 ] satisfies RouteConfig;
