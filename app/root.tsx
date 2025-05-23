@@ -14,6 +14,7 @@ import { ConfigProvider, Flex, Spin, Typography, theme } from "antd";
 import { useEffect, useState } from "react";
 import type { User } from "./interfaces/User";
 import { AuthContext } from "./userContext";
+import { Provider as ChakraProvider } from "./components/ui/provider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -57,24 +58,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <ConfigProvider
-        theme={{
-          algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
-        }}
-      >
-        <AuthContext.Provider value={{ user, setUser }}>
-          <body>
-            <main>
-              <header>
-                <Header />
-              </header>
-              <div className="p-4">{children}</div>
-            </main>
-            <ScrollRestoration />
-            <Scripts />
-          </body>
-        </AuthContext.Provider>
-      </ConfigProvider>
+      <ChakraProvider>
+        <ConfigProvider
+          theme={{
+            algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          }}
+        >
+          <AuthContext.Provider value={{ user, setUser }}>
+            <body>
+              <main>
+                <header>
+                  <Header />
+                </header>
+                <div className="p-4">{children}</div>
+              </main>
+              <ScrollRestoration />
+              <Scripts />
+            </body>
+          </AuthContext.Provider>
+        </ConfigProvider>
+      </ChakraProvider>
     </html>
   );
 }
