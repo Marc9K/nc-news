@@ -19,6 +19,8 @@
 
 ### Check out my [live WEB app](https://marc-web-nc-news.netlify.app/)
 
+it might take a while to load due to Supabase putting by backend to sleep
+
 #### Check out [the REST API backend](https://marc-web-nc-news.netlify.app/) I developed for this app
 
 # Getting Started
