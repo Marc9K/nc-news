@@ -2,6 +2,10 @@
 
 ### Features
 
+#### 👤 Profile
+
+- Select a profile from list
+
 #### 📰 Articles
 
 - View a list of all articles
@@ -10,6 +14,7 @@
   - Topic
   - Sort order (date, comments, like)
 - Like articles with instant feedback
+- Write your own article!
 
 #### 💬 Comments
 
