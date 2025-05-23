@@ -94,28 +94,19 @@ export default function ArticlesFilters() {
       style={{ maxWidth: "45rem", width: "100%", alignItems: "center" }}
     >
       {topics?.length > 0 && (
-        <NativeSelect.Root
-          variant="plain"
-          colorPalette="blue"
-          style={{
-            width: "auto",
+        <Selector
+          placeholder="Select topic"
+          value={urlNavigate.topic}
+          onSelect={(value) => {
+            navigateWith({ path: value });
           }}
         >
-          <NativeSelect.Field
-            placeholder="Select topic"
-            value={urlNavigate.topic}
-            onChange={({ currentTarget: { value } }) => {
-              navigateWith({ path: value });
-            }}
-          >
-            {topics?.map((topic) => (
-              <option key={topic.slug} value={topic.slug}>
-                {topic.slug}
-              </option>
-            ))}
-          </NativeSelect.Field>
-          <NativeSelect.Indicator />
-        </NativeSelect.Root>
+          {topics?.map((topic) => (
+            <option key={topic.slug} value={topic.slug}>
+              {topic.slug}
+            </option>
+          ))}
+        </Selector>
       )}
       <Flex style={{ width: "100%", justifyContent: "space-around" }}>
         <Selector
