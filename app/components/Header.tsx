@@ -16,19 +16,19 @@ export function Header() {
         marginBottom: "1rem",
       }}
     >
-      <Typography.Title
-        onClick={() => navigate("/")}
+      <Button
+        aria-label="Go to homepage"
+        type="text"
         style={{
           position: "absolute",
           left: "50%",
           transform: "translateX(-50%)",
           margin: 0,
         }}
-        level={1}
-        tabIndex={0}
+        onClick={() => navigate("/")}
       >
-        NC News
-      </Typography.Title>
+        <Typography.Title level={1}>NC News</Typography.Title>
+      </Button>
       {user ? (
         <Flex
           vertical

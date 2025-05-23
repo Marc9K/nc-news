@@ -1,20 +1,30 @@
-import { Badge, Card, Flex, Space, Typography, Image } from "antd";
+import { Badge, Card, Flex, Space, Typography, Image, Button } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router";
 import type { ArticleType } from "../interfaces/Article";
 import { useLoad } from "~/hooks/useLoad";
 import { API } from "env";
+import { VisuallyHidden } from "@chakra-ui/react";
 
 export function ArticleCard({ article }: { article: ArticleType }) {
   const createdAt = new Date(article.created_at);
   const navigate = useNavigate();
   const { data } = useLoad(API + "articles/" + article.article_id);
+  function onClick() {
+    navigate("/article/" + article.article_id);
+  }
   return (
     <Card
-      tabIndex={0}
-      onClick={() => {
-        navigate("/article/" + article.article_id);
-      }}
+      extra={
+        <Button
+          aria-label={`Read ${article.title}`}
+          type="link"
+          onClick={onClick}
+        >
+          Read
+        </Button>
+      }
+      onClick={onClick}
       style={{
         maxWidth: "30rem",
         width: "100%",

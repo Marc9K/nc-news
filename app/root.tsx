@@ -65,7 +65,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           }}
         >
           <AuthContext.Provider value={{ user, setUser }}>
-            <body>
+            <body style={{ padding: "0 1rem" }}>
               <main>
                 <header>
                   <Header />

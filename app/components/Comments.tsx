@@ -1,9 +1,7 @@
-import { Button, Flex, Image, message, Pagination, Typography } from "antd";
+import { Button, Flex, message, Pagination } from "antd";
 import { useLoad } from "../hooks/useLoad";
 import { API } from "../../env";
 import { MetaWraper } from "./MetaWraper";
-// import type { Route } from "./+types/Article";
-// import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { CommentCard } from "./CommentCard";
 import { useContext, useState } from "react";
