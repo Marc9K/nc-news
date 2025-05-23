@@ -7,6 +7,7 @@ import DeleteButton from "./DeleteButton";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "~/userContext";
+import { API } from "env";
 
 export function ArticleView({ article }: { article: ArticleType }) {
   const articleEndpoint = "articles/" + article.article_id;
@@ -43,7 +44,7 @@ export function ArticleView({ article }: { article: ArticleType }) {
             onClick={async () => {
               try {
                 setDeleting(true);
-                await axios.delete(articleEndpoint);
+                await axios.delete(API + articleEndpoint);
                 navigate("/");
               } catch (error) {
                 setDeleting(false);
