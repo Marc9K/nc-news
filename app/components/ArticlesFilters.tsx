@@ -89,10 +89,7 @@ export default function ArticlesFilters() {
     navigateWith({ query });
   }
   return (
-    <Flex
-      vertical
-      style={{ maxWidth: "45rem", width: "100%", alignItems: "center" }}
-    >
+    <Flex vertical className="wide maxL" style={{ alignItems: "center" }}>
       {topics?.length > 0 && (
         <Selector
           placeholder="Select topic"
@@ -108,7 +105,8 @@ export default function ArticlesFilters() {
           ))}
         </Selector>
       )}
-      <Flex style={{ width: "100%", justifyContent: "space-around" }}>
+      <Flex className="headerContainer">
+        {/* <div className="contf24q9h7ner"> */}
         <Selector
           value={urlNavigate.currentQuery.sort_by}
           placeholder="Sort by"
@@ -136,6 +134,7 @@ export default function ArticlesFilters() {
             </option>
           ))}
         </Selector>
+        {/* </div> */}
       </Flex>
     </Flex>
   );

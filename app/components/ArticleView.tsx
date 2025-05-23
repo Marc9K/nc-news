@@ -22,18 +22,19 @@ export function ArticleView({ article }: { article: ArticleType }) {
     <Flex
       gap="middle"
       vertical
-      style={{ maxWidth: "45rem", justifySelf: "center" }}
+      className="maxL"
+      style={{ justifySelf: "center" }}
     >
       <Typography.Title>{article.title}</Typography.Title>
       <Image src={article.article_img_url} alt="Article image" />
       <Typography.Text>{article.body}</Typography.Text>
-      <Flex justify="space-between" style={{ width: "100%" }}>
+      <Flex justify="space-between" className="wide">
         <Typography.Text type="secondary">By {article.author}</Typography.Text>
-        <Typography.Text type="secondary" style={{ textAlign: "end" }}>
+        <Typography.Text type="secondary">
           {new Date(article.created_at).toLocaleDateString("en-GB")}
         </Typography.Text>
       </Flex>
-      <Flex justify="space-around" style={{ width: "100%" }}>
+      <Flex justify="space-around" className="wide">
         <Typography.Title level={5}>
           {article.votes + like} like
           {Math.abs(article.votes + like) !== 1 && "s"}

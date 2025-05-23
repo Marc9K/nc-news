@@ -19,12 +19,7 @@ export function Header() {
       <Button
         aria-label="Go to homepage"
         type="text"
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          margin: 0,
-        }}
+        className="deadCentre"
         onClick={() => navigate("/")}
       >
         <Typography.Title level={1}>NC News</Typography.Title>
@@ -32,7 +27,7 @@ export function Header() {
       {user ? (
         <Button
           type="text"
-          style={{ marginLeft: "auto", marginRight: "16px" }}
+          className="offRight"
           onClick={() => navigate("/users")}
         >
           <Flex vertical align="center">
@@ -48,7 +43,7 @@ export function Header() {
         <Button
           type="dashed"
           size="small"
-          style={{ marginLeft: "auto", marginRight: "16px" }}
+          className="offRight"
           onClick={() => navigate("/users")}
         >
           Log in

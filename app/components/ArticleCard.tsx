@@ -28,12 +28,9 @@ export function ArticleCard({ article }: { article: ArticleType }) {
         </Button>
       }
       onClick={onClick}
-      style={{
-        maxWidth: "30rem",
-        width: "100%",
-      }}
+      className="wide maxS"
       title={
-        <Typography.Title level={3} style={{ whiteSpace: "wrap" }}>
+        <Typography.Title level={3} className="text-wrap">
           {article.title}
         </Typography.Title>
       }
@@ -50,7 +47,7 @@ export function ArticleCard({ article }: { article: ArticleType }) {
         <Flex vertical justify="space-between" align="center">
           <Image
             preview={false}
-            style={{ maxWidth: "100%" }}
+            className="wide"
             src={data.article.article_img_url}
             alt="Article image"
           />
@@ -59,7 +56,7 @@ export function ArticleCard({ article }: { article: ArticleType }) {
       )}
       <Flex justify="space-between">
         <Typography.Text type="secondary">By {article.author}</Typography.Text>
-        <Typography.Text type="secondary" style={{ textAlign: "end" }}>
+        <Typography.Text type="secondary">
           {createdAt.toLocaleDateString("en-GB")}
         </Typography.Text>
       </Flex>
