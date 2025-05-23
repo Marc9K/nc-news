@@ -22,6 +22,9 @@ export function ArticleCard({ article }: { article: ArticleType }) {
           onClick={onClick}
         >
           Read
+          <VisuallyHidden>
+            {article.title} by {article.author}
+          </VisuallyHidden>
         </Button>
       }
       onClick={onClick}
