@@ -6,12 +6,9 @@ export default function UserCard({ user }: { user: User }) {
   const auth = useContext(AuthContext);
   return (
     <Card
-      style={{
-        maxWidth: "30rem",
-        width: "100%",
-      }}
+      className="wide maxS"
       title={
-        <Typography.Title level={3} style={{ whiteSpace: "wrap" }}>
+        <Typography.Title level={3} className="text-wrap">
           {user.name}
         </Typography.Title>
       }

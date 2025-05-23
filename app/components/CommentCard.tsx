@@ -86,10 +86,7 @@ export function CommentCard({
     <>
       {contextHolder}
       <Card
-        style={{
-          maxWidth: "30rem",
-          width: "100%",
-        }}
+        className="wide maxS"
         title={
           <Flex justify="space-between" align="center">
             <Typography.Title copyable level={4}>

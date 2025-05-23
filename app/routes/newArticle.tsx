@@ -72,7 +72,7 @@ export default function NewArticle() {
   return (
     <Flex vertical align="center">
       <Typography.Title level={2}>New article</Typography.Title>
-      <Form onFinish={post} style={{ maxWidth: "40rem", width: "100%" }}>
+      <Form onFinish={post} className="wide maxM">
         {contextHolder}
         <Form.Item
           name="title"
