@@ -105,7 +105,6 @@ export default function NewArticle() {
                 placeholder="Select a topic for your article"
                 onChange={setTopic}
                 value={topic}
-                allowClear
               >
                 <Option value={0}>
                   <Typography.Text type="secondary">New topic</Typography.Text>
