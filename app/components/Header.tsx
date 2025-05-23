@@ -13,10 +13,12 @@ export function Header() {
         position: "relative",
         alignItems: "center",
         marginTop: "1rem",
+        marginBottom: "1rem",
       }}
     >
-      <Typography.Title
-        level={1}
+      <Button
+        aria-label="Go to homepage"
+        type="text"
         style={{
           position: "absolute",
           left: "50%",
@@ -25,18 +27,23 @@ export function Header() {
         }}
         onClick={() => navigate("/")}
       >
-        NC News
-      </Typography.Title>
+        <Typography.Title level={1}>NC News</Typography.Title>
+      </Button>
       {user ? (
-        <Flex
-          vertical
-          align="center"
+        <Button
+          type="text"
           style={{ marginLeft: "auto", marginRight: "16px" }}
           onClick={() => navigate("/users")}
         >
-          <Avatar size="small" src={user.avatar_url} />
-          <Typography.Text type="secondary">{user.username}</Typography.Text>
-        </Flex>
+          <Flex vertical align="center">
+            <Avatar
+              size="small"
+              src={user.avatar_url}
+              alt={`${user.name}s avatar`}
+            />
+            <Typography.Text type="secondary">{user.username}</Typography.Text>
+          </Flex>
+        </Button>
       ) : (
         <Button
           type="dashed"

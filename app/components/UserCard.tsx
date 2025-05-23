@@ -40,7 +40,12 @@ export default function UserCard({ user }: { user: User }) {
       ]}
     >
       <Flex justify="center">
-        <Avatar shape="square" size={150} src={user.avatar_url} />
+        <Avatar
+          shape="square"
+          size={150}
+          src={user.avatar_url}
+          alt={`${user.name}s avatar`}
+        />
       </Flex>
     </Card>
   );
