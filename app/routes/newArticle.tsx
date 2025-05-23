@@ -14,12 +14,41 @@ import { API } from "env";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { MetaWraper } from "~/components/MetaWraper";
-import TopicSelector from "~/components/TopicSelector";
 import { useLoad } from "~/hooks/useLoad";
 import type { TopicType } from "~/interfaces/Topic";
 import { AuthContext } from "~/userContext";
 
 export default function NewArticle() {
+  async function create(slug: string, description: string = "No description") {
+    await axios.post(API + "topics", { slug, description });
+  }
+
+  async function post(article: {
+    newTopic?: string;
+    newTopicDescription?: string;
+    body: string;
+    title: string;
+    article_img_url?: string;
+    topic: string;
+  }) {
+    try {
+      if (article.newTopic) {
+        await create(article.newTopic, article.newTopicDescription);
+        article.topic = article.newTopic;
+        delete article.newTopic;
+        delete article.newTopicDescription;
+      }
+      article.author = user?.username;
+
+      console.log(article);
+
+      await axios.post(API + "articles", article);
+      navigate("/");
+    } catch (err) {
+      errorMessage();
+    }
+  }
+
   const { data, error, loading } = useLoad(API + "topics");
   const navigate = useNavigate();
   const [topic, setTopic] = useState(null);
@@ -44,24 +73,7 @@ export default function NewArticle() {
   return (
     <Flex vertical align="center">
       <Typography.Title level={2}>New article</Typography.Title>
-      <Form
-        onFinish={async (values) => {
-          try {
-            if (values.newTopic) {
-              values.topic = values.newTopic;
-              delete values.newTopic;
-            }
-            values.author = user?.username;
-
-            console.log(values);
-
-            await axios.post(API + "articles", values);
-            navigate("/");
-          } catch (err) {
-            errorMessage();
-          }
-        }}
-      >
+      <Form onFinish={post} style={{ maxWidth: "40rem", width: "100%" }}>
         {contextHolder}
         <Form.Item
           name="title"
@@ -96,9 +108,9 @@ export default function NewArticle() {
                 value={topic}
                 allowClear
               >
-                {/* <Option value={0}>
+                <Option value={0}>
                   <Typography.Text type="secondary">New topic</Typography.Text>
-                </Option> */}
+                </Option>
                 {data.topics?.length > 0 &&
                   data.topics.map((topic: TopicType) => (
                     <Option value={topic.slug}>
@@ -110,16 +122,25 @@ export default function NewArticle() {
           )}
         </MetaWraper>
         {topic === 0 && (
-          <Form.Item name="newTopic" label="Name new topic">
-            <Input />
-          </Form.Item>
+          <>
+            <Form.Item
+              name="newTopic"
+              label="Name new topic"
+              rules={[{ required: topic === 0, type: "string", min: 1 }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item name="newTopicDescription" label="Describe new topic">
+              <Input />
+            </Form.Item>
+          </>
         )}
         <Form.Item
           name="body"
           label="Article text"
           rules={[{ required: true, type: "string", min: 1 }]}
         >
-          <Input.TextArea autoSize />
+          <Input.TextArea autoSize variant="underlined" />
         </Form.Item>
         <Form.Item label={null}>
           <Button block type="primary" htmlType="submit">
