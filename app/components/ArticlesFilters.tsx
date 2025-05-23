@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useLoad } from "../hooks/useLoad";
 import type { TopicType } from "../interfaces/Topic";
 import useUrl from "~/hooks/useUrl";
+import { NativeSelect } from "@chakra-ui/react";
 
 type OrderType = "desc" | "asc";
 type SortByType = "created_at" | "votes" | "comment_count";
@@ -13,7 +14,7 @@ interface QueryType {
   sort_by?: SortByType;
 }
 
-const orderOptions: MenuProps["items"] = [
+const orderOptions = [
   {
     label: "Ascending",
     key: "asc",
@@ -24,22 +25,41 @@ const orderOptions: MenuProps["items"] = [
   },
 ];
 
-const sortByOptions: MenuProps["items"] = [
+const sortByOptions = [
   { label: "Date", key: "created_at" },
   { label: "Likes", key: "votes" },
   { label: "Comments", key: "comment_count" },
 ];
+
+function Selector({ value, placeholder, onSelect, children }) {
+  return (
+    <NativeSelect.Root
+      variant="plain"
+      colorPalette="blue"
+      style={{
+        width: "auto",
+      }}
+    >
+      <NativeSelect.Field
+        placeholder={placeholder}
+        value={value}
+        onChange={({ currentTarget: { value } }) => {
+          onSelect(value);
+        }}
+      >
+        {children}
+      </NativeSelect.Field>
+      <NativeSelect.Indicator />
+    </NativeSelect.Root>
+  );
+}
 
 export default function ArticlesFilters() {
   const urlNavigate = useUrl();
   const navigate = useNavigate();
 
   const { data, error, loading } = useLoad(API + "topics");
-  const topics: MenuProps["items"] =
-    data?.topics.map((topic: TopicType) => ({
-      label: topic.slug,
-      key: topic.slug,
-    })) ?? [];
+  const topics: TopicType[] | null = data?.topics;
 
   const onClickTopic: MenuProps["onClick"] = ({ key }) => {
     navigateWith({ path: key });
@@ -61,55 +81,70 @@ export default function ArticlesFilters() {
     );
   }
 
-  function onClick(filter: "order" | "sort_by") {
-    const action: MenuProps["onClick"] = ({ key }) => {
-      let query: QueryType = {
-        ...urlNavigate.currentQuery,
-      };
-      query[filter] = key;
-      navigateWith({ query });
+  function onClick(filter: "order" | "sort_by", key: string) {
+    let query: QueryType = {
+      ...urlNavigate.currentQuery,
     };
-    return action;
+    query[filter] = key;
+    navigateWith({ query });
   }
   return (
-    <Flex vertical style={{ width: "100%", alignItems: "center" }}>
-      {topics!.length > 0 && (
-        <Dropdown menu={{ items: topics, onClick: onClickTopic }}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              {urlNavigate.topic.length > 0
-                ? urlNavigate.topic
-                : "Select topic"}
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+    <Flex
+      vertical
+      style={{ maxWidth: "45rem", width: "100%", alignItems: "center" }}
+    >
+      {topics?.length > 0 && (
+        <NativeSelect.Root
+          variant="plain"
+          colorPalette="blue"
+          style={{
+            width: "auto",
+          }}
+        >
+          <NativeSelect.Field
+            placeholder="Select topic"
+            value={urlNavigate.topic}
+            onChange={({ currentTarget: { value } }) => {
+              navigateWith({ path: value });
+            }}
+          >
+            {topics?.map((topic) => (
+              <option key={topic.slug} value={topic.slug}>
+                {topic.slug}
+              </option>
+            ))}
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
       )}
       <Flex style={{ width: "100%", justifyContent: "space-around" }}>
-        <Dropdown menu={{ items: sortByOptions, onClick: onClick("sort_by") }}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              {urlNavigate.currentQuery.sort_by
-                ? sortByOptions.find(
-                    ({ key }) => key === urlNavigate.currentQuery.sort_by
-                  ).label ?? urlNavigate.currentQuery.sort_by
-                : "Sort by"}
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
-        <Dropdown menu={{ items: orderOptions, onClick: onClick("order") }}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              {urlNavigate.currentQuery.order
-                ? orderOptions.find(
-                    ({ key }) => key === urlNavigate.currentQuery.order
-                  ).label ?? urlNavigate.currentQuery.order
-                : "Order"}
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+        <Selector
+          value={urlNavigate.currentQuery.sort_by}
+          placeholder="Sort by"
+          onSelect={(value) => {
+            onClick("sort_by", value);
+          }}
+        >
+          {sortByOptions.map((sort) => (
+            <option key={sort.key} value={sort.key}>
+              {sort.label}
+            </option>
+          ))}
+        </Selector>
+
+        <Selector
+          value={urlNavigate.currentQuery.order}
+          placeholder="Order"
+          onSelect={(value) => {
+            onClick("order", value);
+          }}
+        >
+          {orderOptions.map((order) => (
+            <option key={order.key} value={order.key}>
+              {order.label}
+            </option>
+          ))}
+        </Selector>
       </Flex>
     </Flex>
   );

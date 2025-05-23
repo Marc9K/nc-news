@@ -11,6 +11,7 @@ export function ArticleCard({ article }: { article: ArticleType }) {
   const { data } = useLoad(API + "articles/" + article.article_id);
   return (
     <Card
+      tabIndex={0}
       onClick={() => {
         navigate("/article/" + article.article_id);
       }}
@@ -38,6 +39,7 @@ export function ArticleCard({ article }: { article: ArticleType }) {
             preview={false}
             style={{ maxWidth: "100%" }}
             src={data.article.article_img_url}
+            alt="Article image"
           />
           <Typography.Text ellipsis={3}>{data.article.body}</Typography.Text>
         </Flex>

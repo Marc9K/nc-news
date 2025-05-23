@@ -25,7 +25,7 @@ export function ArticleView({ article }: { article: ArticleType }) {
       style={{ maxWidth: "45rem", justifySelf: "center" }}
     >
       <Typography.Title>{article.title}</Typography.Title>
-      <Image src={article.article_img_url} />
+      <Image src={article.article_img_url} alt="Article image" />
       <Typography.Text>{article.body}</Typography.Text>
       <Flex justify="space-between" style={{ width: "100%" }}>
         <Typography.Text type="secondary">By {article.author}</Typography.Text>

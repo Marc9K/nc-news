@@ -13,17 +13,19 @@ export function Header() {
         position: "relative",
         alignItems: "center",
         marginTop: "1rem",
+        marginBottom: "1rem",
       }}
     >
       <Typography.Title
-        level={1}
+        onClick={() => navigate("/")}
         style={{
           position: "absolute",
           left: "50%",
           transform: "translateX(-50%)",
           margin: 0,
         }}
-        onClick={() => navigate("/")}
+        level={1}
+        tabIndex={0}
       >
         NC News
       </Typography.Title>
@@ -34,7 +36,11 @@ export function Header() {
           style={{ marginLeft: "auto", marginRight: "16px" }}
           onClick={() => navigate("/users")}
         >
-          <Avatar size="small" src={user.avatar_url} />
+          <Avatar
+            size="small"
+            src={user.avatar_url}
+            alt={`${user.name}s avatar`}
+          />
           <Typography.Text type="secondary">{user.username}</Typography.Text>
         </Flex>
       ) : (
