@@ -55,10 +55,9 @@ export default function NewArticle() {
   const [image, setImage] = useState(null);
 
   const { user } = useContext(AuthContext);
-  if (user?.username) {
-    var author = user.username;
-  } else {
+  if (!user?.username) {
     navigate("/");
+    return null;
   }
 
   const [messageApi, contextHolder] = message.useMessage();
