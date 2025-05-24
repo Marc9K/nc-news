@@ -22,7 +22,7 @@
 - Post a new comment
 - Delete your own comments
 
-### Check out my [live WEB app](https://marc-web-nc-news.netlify.app/)
+### Check out my [live WEB app](https://marc-nc-news.netlify.app/)
 
 it might take a while to load due to Supabase putting by backend to sleep
 
